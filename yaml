@@ -1,0 +1,20 @@
+name: MSO_E5_Dev_AutoRenew_Modified-2024
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'   # Runs weekly
+  workflow_dispatch:
+
+jobs:
+  renew:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install PowerShell Modules
+        run: |
+          Install-Module Microsoft.Graph -Force -Scope CurrentUser
+
+      - name: Run AutoRenew Script
+        run: pwsh ./MSO_E5_Dev_AutoRenew_Modified-2024.ps1
