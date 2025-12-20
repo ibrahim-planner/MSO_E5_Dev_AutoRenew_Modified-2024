@@ -1,0 +1,24 @@
+# MSO_E5_Dev_AutoRenew_Modified-2024.ps1
+# Script to keep Microsoft 365 E5 Developer subscription active
+
+# Connect to Microsoft Graph
+Connect-MgGraph -Scopes "User.Read.All","Mail.ReadWrite","Calendars.ReadWrite"
+
+# Example activity: send a test email
+Send-MgUserMessage -UserId "youruser@yourtenant.onmicrosoft.com" -Body @{
+    Subject = "Keep E5 Dev Active"
+    Body = @{
+        ContentType = "Text"
+        Content = "Automated activity to keep subscription alive."
+    }
+    ToRecipients = @(@{EmailAddress = @{Address="youruser@yourtenant.onmicrosoft.com"}})
+}
+
+# Example activity: create a test calendar event
+New-MgUserEvent -UserId "youruser@yourtenant.onmicrosoft.com" -Subject "Keep Alive Event" -Start @{
+    DateTime = (Get-Date).AddHours(1).ToString("o")
+    TimeZone = "UTC"
+} -End @{
+    DateTime = (Get-Date).AddHours(2).ToString("o")
+    TimeZone = "UTC"
+}
